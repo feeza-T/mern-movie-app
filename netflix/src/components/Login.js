@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import Header from './Header';
 import axios from 'axios';
 import { API_END_POINT } from '../utils/constant';
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const loginHandler = () => {
     setIsLogin(!isLogin);
@@ -20,23 +23,42 @@ const Login = () => {
       const user = { email, password };
       console.log("Login Data:", user); // Debug log
       try {
-        const res = await axios.post(`${API_END_POINT}/login`, user);
+        const res = await axios.post(`${API_END_POINT}/login`, user, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
         console.log("Login Response:", res);
+        if (res.data.success) {
+          toast.success(res.data.message);
+          navigate("/browse");
+        } 
       } catch (error) {
         console.error("Login Error:", error);
+        const errorMessage = error.response?.data?.message || "Login failed. Please try again.";
+        toast.error(errorMessage);
       }
     } else {
       // Register
       const user = { fullName, email, password };
-      console.log("Register Data:", user); // Debug log
+
       try {
-        const res = await axios.post(`${API_END_POINT}/register`, user);
+        const res = await axios.post(`${API_END_POINT}/register`, user, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
         console.log("Register Response:", res);
+        if (res.data.success) {
+          toast.success(res.data.message);
+        }
       } catch (error) {
         console.error("Register Error:", error);
+        const errorMessage = error.response?.data?.message || "Registration failed. Please try again.";
+        toast.error(errorMessage);
       }
     }
-    
+
     setFullName(""); // Clear the form fields after submission
     setEmail("");
     setPassword("");
