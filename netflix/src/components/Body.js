@@ -1,9 +1,11 @@
+// Body.js
 import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Login from './Login';
 import Browse from './Browse';
 import Search from './Search';
 import MovieDetail from './MovieDetail';
+import List from './List';
 
 const staticMovies = [
   {
@@ -18,28 +20,10 @@ const staticMovies = [
     description: 'In Earth\'s future, a global crop blight and second Dust Bowl are slowly rendering the planet uninhabitable. Professor Brand (Michael Caine), a brilliant NASA physicist, is working on plans to save mankind by transporting Earth\'s population to a new home via a wormhole. But first, Brand must send former NASA pilot Cooper (Matthew McConaughey) and a team of researchers through the wormhole and across the galaxy to find out which of three planets could be mankind\'s new home.',
     imageUrl: 'https://ebertfest.com/sites/default/files/large_lbGGuk9K1kNQqDabaMyFz1L9iTg.jpg',
   },
-  {
-    id: 3,
-    name: 'Predator',
-    description: 'In Earth\'s future, a global crop blight and second Dust Bowl are slowly rendering the planet uninhabitable. Professor Brand (Michael Caine), a brilliant NASA physicist, is working on plans to save mankind by transporting Earth\'s population to a new home via a wormhole. But first, Brand must send former NASA pilot Cooper (Matthew McConaughey) and a team of researchers through the wormhole and across the galaxy to find out which of three planets could be mankind\'s new home.',
-    imageUrl: 'https://ebertfest.com/sites/default/files/large_lbGGuk9K1kNQqDabaMyFz1L9iTg.jpg',
-  },
-  {
-    id: 4,
-    name: 'The Martian',
-    description: 'In Earth\'s future, a global crop blight and second Dust Bowl are slowly rendering the planet uninhabitable. Professor Brand (Michael Caine), a brilliant NASA physicist, is working on plans to save mankind by transporting Earth\'s population to a new home via a wormhole. But first, Brand must send former NASA pilot Cooper (Matthew McConaughey) and a team of researchers through the wormhole and across the galaxy to find out which of three planets could be mankind\'s new home.',
-    imageUrl: 'https://ebertfest.com/sites/default/files/large_lbGGuk9K1kNQqDabaMyFz1L9iTg.jpg',
-  },
-  {
-    id: 5,
-    name: 'Matrix',
-    description: 'In Earth\'s future, a global crop blight and second Dust Bowl are slowly rendering the planet uninhabitable. Professor Brand (Michael Caine), a brilliant NASA physicist, is working on plans to save mankind by transporting Earth\'s population to a new home via a wormhole. But first, Brand must send former NASA pilot Cooper (Matthew McConaughey) and a team of researchers through the wormhole and across the galaxy to find out which of three planets could be mankind\'s new home.',
-    imageUrl: 'https://ebertfest.com/sites/default/files/large_lbGGuk9K1kNQqDabaMyFz1L9iTg.jpg',
-  },
 ];
 
 const ErrorBoundary = ({ error }) => {
-  return <div>Error: {error.message}</div>;
+  return <div>Error: {error?.message || 'An unknown error occurred'}</div>;
 };
 
 const Body = () => {
@@ -63,7 +47,12 @@ const Body = () => {
       path: '/movie/:id',
       element: <MovieDetail movies={staticMovies} />,
       errorElement: <ErrorBoundary />
-    }
+    },
+    {
+      path: '/list',
+      element: <List />,
+      errorElement: <ErrorBoundary />
+    },
   ]);
 
   return (
@@ -74,3 +63,4 @@ const Body = () => {
 }
 
 export default Body;
+
