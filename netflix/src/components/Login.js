@@ -1,12 +1,11 @@
-// src/components/Login.js
 import React, { useState } from 'react';
 import Header from './Header';
 import axios from 'axios';
 import { API_END_POINT } from '../utils/constant';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setUser } from '../redux/userSlice'; // Import setUser
+import { useDispatch, useSelector } from 'react-redux';
+import { setLoading, setUser } from '../redux/userSlice';
 
 const Login = () => {
     const [isLogin, setIsLogin] = useState(false);
@@ -15,17 +14,34 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const isLoading = useSelector(store => store.app.isLoading);
 
     const loginHandler = () => {
         setIsLogin(!isLogin);
     }
 
+    const logoutHandler = async () => {
+        try {
+            const res = await axios.get(`${API_END_POINT}/logout`);
+            if (res.data.success) {
+                toast.success(res.data.message);
+            }
+            console.log(res);
+            dispatch(setUser(null));
+            navigate('/');
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     const getInputData = async (e) => {
-        e.preventDefault(); 
+        e.preventDefault();
+        dispatch(setLoading(true));
         if (isLogin) {
             // Login
             const user = { email, password };
-            console.log("Login Data:", user); 
+            console.log("Login Data:", user);
             try {
                 const res = await axios.post(`${API_END_POINT}/login`, user, {
                     headers: {
@@ -34,16 +50,25 @@ const Login = () => {
                 });
                 if (res.data.success) {
                     toast.success(res.data.message);
-                    
-                } dispatch(setUser(res.data.user));
-                navigate("/browse");
-                   
+                    dispatch(setUser(res.data.user));
+
+                    // Set timeout for automatic logout after 10 seconds
+                    setTimeout(() => {
+                        logoutHandler();
+                    }, 10000);
+
+                    navigate("/browse");
+                }
             } catch (error) {
                 const errorMessage = error.response?.data?.message || "Login failed. Please try again.";
                 toast.error(errorMessage);
             }
+            finally {
+                dispatch(setLoading(false));
+            }
         } else {
             // Register
+            dispatch(setLoading(true));
             const user = { fullName, email, password };
             try {
                 const res = await axios.post(`${API_END_POINT}/register`, user, {
@@ -58,6 +83,9 @@ const Login = () => {
             } catch (error) {
                 const errorMessage = error.response?.data?.message || "Registration failed. Please try again.";
                 toast.error(errorMessage);
+            }
+            finally {
+                dispatch(setLoading(false));
             }
         }
 
@@ -99,10 +127,10 @@ const Login = () => {
                         className='outline-none p-3 m-2 rounded-sm bg-gray-800 text-white w-full'
                     />
                     <button type="submit" className='bg-red-600 mt-6 p-3 text-white rounded-sm font-medium w-full'>
-                        {isLogin ? "Login" : "Signup"}
+                        {`${isLoading ? "loading..." : (isLogin ? "Login" : "Signup")}`}
                     </button>
                     <p className='text-white mt-2'>
-                        {isLogin ? "New?" : "Already have an account?"}
+                        {isLogin ? "New to TTStream?" : "Already have an account?"}
                         <span onClick={loginHandler} className='ml-1 text-blue-800 font-medium cursor-pointer'>
                             {isLogin ? "Signup" : "Login"}
                         </span>
