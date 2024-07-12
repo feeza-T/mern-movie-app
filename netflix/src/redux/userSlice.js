@@ -1,26 +1,20 @@
-import { createSlice } from '@reduxjs/toolkit';
-
-const initialState = {
-  user: null,
-  isLoading: false, // Example of isLoading state
-  error: null,
-};
+import {createSlice} from "@reduxjs/toolkit";
 
 const userSlice = createSlice({
-  name: 'user',
-  initialState,
-  reducers: {
-    setUser: (state, action) => {
-      state.user = action.payload;
+    name:"user",
+    initialState:{
+        user:null,
+        isLoading:false
     },
-    setLoading: (state, action) => {
-      state.isLoading = action.payload;
-    },
-    setError: (state, action) => {
-      state.error = action.payload;
-    },
-  },
+    reducers:{
+        // actions
+        setUser:(state,action)=>{
+            state.user = action.payload;
+        },
+        setLoading:(state,action)=>{
+            state.isLoading = action.payload;
+        }
+    }
 });
-
-export const { setUser, setLoading, setError } = userSlice.actions;
+export const {setUser,setLoading} = userSlice.actions;
 export default userSlice.reducer;
