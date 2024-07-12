@@ -1,12 +1,13 @@
-// store.js
-import { configureStore } from "@reduxjs/toolkit";
+import {configureStore} from "@reduxjs/toolkit";
 import userReducer from "./userSlice";
+import movieReducer from "./movieSlice";
+import searchSlice from "./searchSlice";
 
 const store = configureStore({
-  reducer: {
-    app: userReducer
-    // Add other reducers here if any
-  }
+    reducer:{
+        app:userReducer,
+        movie:movieReducer,
+        searchMovie:searchSlice
+    }
 });
-
 export default store;

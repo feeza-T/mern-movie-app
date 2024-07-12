@@ -18,7 +18,7 @@ const Login = () => {
 
     const loginHandler = () => {
         setIsLogin(!isLogin);
-    }
+    };
 
     const logoutHandler = async () => {
         try {
@@ -26,14 +26,12 @@ const Login = () => {
             if (res.data.success) {
                 toast.success(res.data.message);
             }
-            console.log(res);
             dispatch(setUser(null));
             navigate('/');
-
         } catch (error) {
             console.log(error);
         }
-    }
+    };
 
     const getInputData = async (e) => {
         e.preventDefault();
@@ -41,7 +39,6 @@ const Login = () => {
         if (isLogin) {
             // Login
             const user = { email, password };
-            console.log("Login Data:", user);
             try {
                 const res = await axios.post(`${API_END_POINT}/login`, user, {
                     headers: {
@@ -55,7 +52,7 @@ const Login = () => {
                     // Set timeout for automatic logout after 10 seconds
                     setTimeout(() => {
                         logoutHandler();
-                    }, 10000);
+                    }, 120000);
 
                     navigate("/browse");
                 }
@@ -92,7 +89,7 @@ const Login = () => {
         setFullName(""); // Clear the form fields after submission
         setEmail("");
         setPassword("");
-    }
+    };
 
     return (
         <div>
