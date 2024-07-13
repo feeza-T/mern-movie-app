@@ -3,17 +3,15 @@ import dotenv from "dotenv";
 import databaseConnection from "./utils/database.js";
 import cookieParser from "cookie-parser";
 import userRoute from "./routes/userRoute.js";
-import cors from 'cors';
-
-
+import cors from "cors";
 
 dotenv.config({
-    path: ".env"
-   }); 
+  path: ".env",
+});
 
 databaseConnection();
 
-const app = express(); 
+const app = express();
 
 //middlewares
 app.use(cors());
@@ -21,12 +19,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-
-
 //api
-app.use("/api/v1/user",userRoute);
-
+app.get("/", (req, res) => res.send("hello world"));
+app.use("/api/v1/user", userRoute);
 
 app.listen(process.env.PORT, () => {
-    console.log(`Server listening at port ${process.env.PORT}`);
+  console.log(`Server listening at port ${process.env.PORT}`);
 });
