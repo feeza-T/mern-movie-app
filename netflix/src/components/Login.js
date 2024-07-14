@@ -52,7 +52,7 @@ const Login = () => {
                     // Set timeout for automatic logout after 10 seconds
                     setTimeout(() => {
                         logoutHandler();
-                    }, 120000);
+                    }, 110000);
 
                     navigate("/browse");
                 }
