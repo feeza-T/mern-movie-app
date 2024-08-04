@@ -1,19 +1,30 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from './Login';
 import Browse from './Browse';
-import List from './List'; // Import List component
+import List from './List'; // Import the List component
 
 const Body = () => {
+    const appRouter = createBrowserRouter([
+        {
+            path: "/",
+            element: <Login />
+        },
+        {
+            path: "/browse",
+            element: <Browse />
+        },
+        {
+            path: "/list",  
+            element: <List />
+        }
+    ]);
+
     return (
-        <Router>
-            <Routes>
-                <Route path="/" element={<Login />} />
-                <Route path="/browse" element={<Browse />} />
-                <Route path="/list" element={<List />} /> {/* Add List route */}
-            </Routes>
-        </Router>
-    );
-};
+        <div>
+            <RouterProvider router={appRouter} />
+        </div>
+    )
+}
 
 export default Body;
