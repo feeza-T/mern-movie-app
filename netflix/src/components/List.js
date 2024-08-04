@@ -90,7 +90,7 @@ const List = () => {
                 <h1 className="text-3xl font-bold">Movie List</h1>
                 <div className="flex items-center">
                     <Link to="/browse" className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
-                        Back to Home
+                        Back
                     </Link>
                     <button onClick={handleSortChange} className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 ml-2 rounded">
                         Sort by Watching Date {sortOrder === 'asc' ? '▲' : '▼'}

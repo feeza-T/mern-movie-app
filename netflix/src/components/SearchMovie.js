@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSearchMovieDetails } from '../redux/searchSlice';
 import { setLoading } from '../redux/userSlice';
 import MovieList from './MovieList';
-//import { setToggle } from '../redux/movieSlice';
 import { IoMdClose } from 'react-icons/io'; // Import the cross icon
+import { Link } from 'react-router-dom'; // Import Link
 
 const SearchMovie = () => {
     const [searchMovie, setSearchMovie] = useState("");
@@ -63,6 +63,12 @@ const SearchMovie = () => {
             ) : (
                 <h1> </h1>
             )}
+            <div className='flex justify-center mt-4 space-x-4'>
+                <Link to="/list" className='bg-red-800 hover:bg-blue-600 text-white px-4 py-2 rounded'>
+                    My List
+                </Link>
+               
+            </div>
         </>
     );
 };
