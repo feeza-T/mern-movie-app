@@ -102,8 +102,8 @@ export const Register = async (req, res) => {
             });
         }
 
-        console.log("Hashing the password");
-        const hashedPassword = await bcryptjs.hash(password, 16);
+        console.log("Hashing the password with 10 salt rounds");
+        const hashedPassword = await bcryptjs.hash(password, 10);  // Lowered salt rounds to 10
 
         console.log("Creating new user");
         await User.create({
