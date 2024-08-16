@@ -9,15 +9,19 @@ const List = () => {
     const [searchBy, setSearchBy] = useState('movieName'); // Default search by movie name
     const [sortOrder, setSortOrder] = useState('asc'); // Sort order for watching date
 
+    const userId = 'user123'; // Assume a unique user ID or email for demonstration
+
     useEffect(() => {
         // Load movies from localStorage when component mounts
-        const savedMovies = JSON.parse(localStorage.getItem('movieList') || '[]');
-        setMovies(savedMovies);
+        const savedMovies = JSON.parse(localStorage.getItem(`movieList_${userId}`) || '[]');
+        if (savedMovies.length > 0) {
+            setMovies(savedMovies);
+        }
     }, []);
 
     useEffect(() => {
         // Save movies to localStorage whenever movies state changes
-        localStorage.setItem('movieList', JSON.stringify(movies));
+        localStorage.setItem(`movieList_${userId}`, JSON.stringify(movies));
     }, [movies]);
 
     const handleInputChange = (e) => {
@@ -27,9 +31,10 @@ const List = () => {
 
     const addMovie = () => {
         const newMovie = { ...formData };
-        setMovies([...movies, newMovie]);
+        const updatedMovies = [...movies, newMovie];
+        setMovies(updatedMovies);
         setFormData({ movieName: '', directorName: '', watchingDate: '' });
-        sortMoviesByWatchingDate([...movies, newMovie]);
+        sortMoviesByWatchingDate(updatedMovies);
     };
 
     const editMovie = (index) => {
@@ -135,7 +140,7 @@ const List = () => {
                     className="px-4 py-2 mr-2 border rounded"
                 />
                 <input
-                    type="text"
+                    type="date"
                     name="watchingDate"
                     value={formData.watchingDate}
                     onChange={handleInputChange}
