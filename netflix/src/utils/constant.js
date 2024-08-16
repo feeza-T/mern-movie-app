@@ -1,4 +1,4 @@
-export const API_END_POINT = "https://mern-movie-app-fawn.vercel.app";
+export const API_END_POINT = process.env.REACT_APP_BACKEND_URL;
 
 export const options = {
     method: 'GET',
