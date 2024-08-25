@@ -42,9 +42,14 @@ export const Login = async (req, res) => {
         const tokenData = { id: user._id };
         console.log("Generating JWT token");
         const token = jwt.sign(tokenData, "your_secret_key", { expiresIn: "1h" });
+        console.log("token ", token)
+
+        const refreshtoken = jwt.sign(tokenData, "your_refresh_secret_key", { expiresIn: "1d" });
+        res.status(200).cookie("refreshtoken", refreshtoken, { httpOnly: true })
+        console.log("refreshtoken",refreshtoken)
 
         console.log("Sending response with token");
-        return res.status(200).cookie("token", token, { httpOnly: true }).json({
+        return res.status(200).cookie("token", token, { expires: new Date(Date.now()+ 10*60*1000), httpOnly: true }).json({
             message: `Welcome back ${user.fullName}`,
             user,
             success: true
@@ -63,7 +68,10 @@ export const Login = async (req, res) => {
 export const Logout = async (req, res) => {
     try {
         console.log("Logout endpoint hit");
-        return res.status(200).cookie("token", "", { expires: new Date(0), httpOnly: true }).json({
+        res.clearCookie("refreshtoken")
+        res.clearCookie("token")
+
+        return res.status(200).json({
             message: "User logged out successfully.",
             success: true
         });
