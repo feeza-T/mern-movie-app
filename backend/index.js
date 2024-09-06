@@ -22,7 +22,7 @@ const corsOptions = {
     origin:process.env.FRONTEND_URL,
     credentials:true
 }
-app.use(cors(corsOptions));
+app.use(cors());
  
 // api
 app.use("/api/v1/user", userRoute);
