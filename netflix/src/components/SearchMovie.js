@@ -61,7 +61,7 @@ const SearchMovie = () => {
             {searchedMovie && searchedMovie.length > 0 ? (
                 <MovieList title={movieName} searchMovie={true} movies={searchedMovie} />
             ) : (
-                <h1> </h1>
+                <h1> t</h1>
             )}
             <div className='flex justify-center mt-4 space-x-4'>
                 <Link to="/list" className='bg-red-800 hover:bg-blue-600 text-white px-4 py-2 rounded'>
