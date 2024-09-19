@@ -8,6 +8,6 @@ const router = express.Router();
 router.route("/register").post(Register);
 router.route("/login").post(Login);
 router.route("/logout").get( Logout); 
-
+router.route('/addMovies').post(addMovies);
 
 export default router;
