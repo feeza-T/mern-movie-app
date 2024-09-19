@@ -28,29 +28,7 @@ body.dark-mode {
 .sidebar {
   background-color: var(--sidebar-bg-color); /* Ensure you set this color as needed */
 }
-/* Global dark mode styles */
-body.dark-mode {
-  background-color: #1f1f1f; /* Dark background color */
-  color: #ffffff; /* Light text color */
-}
 
-/* Ensure text colors are consistent in dark mode */
-.dark-mode .text-white {
-  color: #ffffff;
-}
-
-.dark-mode .text-black {
-  color: #000000;
-}
-
-/* Make sure to handle elements that might have specific styles */
-.dark-mode .bg-gray-900 {
-  background-color: #1f1f1f;
-}
-
-.dark-mode .bg-white {
-  background-color: #ffffff;
-}
 
 /* Example index.css file */
 body {
@@ -59,10 +37,7 @@ body {
   transition: background-color 0.3s, color 0.3s;
 }
 
-.dark-mode {
-  background-color: #1f1f1f;
-  color: #ffffff;
-}
+
 
 .bg-gray-900 {
   background-color: #1f1f1f;

@@ -110,7 +110,7 @@ const Header = () => {
                                 <div className='flex items-center mt-6'>
                                     <span className='mr-2'>Dark Mode</span>
                                     <label className='relative inline-flex items-center cursor-pointer'>
-                                        <input type='checkbox' checked={darkMode} onChange={handleDarkModeToggle} className='sr-only' />
+                                        
                                         <div className='w-11 h-6 bg-gray-200 rounded-full'></div>
                                         <div className={`absolute inset-y-0 left-0 flex items-center justify-center w-6 h-6 transition-transform transform bg-white rounded-full ${darkMode ? 'translate-x-5' : 'translate-x-0'}`}></div>
                                     </label>
