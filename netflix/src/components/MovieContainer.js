@@ -39,7 +39,7 @@ const MovieContainer = () => {
         const token = localStorage.getItem('token');
         const refreshToken = localStorage.getItem('refreshToken'); // Optionally handle refresh token if needed
   
-        const response = await axios.post(`${API_END_POINT}/moviesData`, {
+        const response = await axios.put(`${API_END_POINT}/moviesData`, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`, // Include the token
