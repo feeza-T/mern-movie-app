@@ -22,9 +22,11 @@ const corsOptions = {
     origin: process.env.FRONTEND_URL, // Ensure this URL is correctly set
     credentials: true,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    allowedHeaders: "Content-Type,Authorization",
-    exposedHeaders: "Set-Cookie",
+    allowedHeaders: "Content-Type,Authorization,x-refresh-token", // Add your custom header here
+    exposedHeaders: "Set-Cookie,x-new-token", // Expose any custom headers you want to access on the client
 };
+
+
 app.use(cors(corsOptions));
 
 // API routes

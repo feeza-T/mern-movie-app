@@ -3,66 +3,69 @@ import jwt from 'jsonwebtoken';
 // Middleware to authenticate user
 export const authenticateUser = async (req, res, next) => {
     try {
-        // Retrieve tokens from cookies
-        const token = req.cookies.token;
-        const refreshToken = req.cookies.refreshtoken;
+        console.log("tokens", req.headers.authorization);
+        // Extract token from headers
+        const token = req.headers.authorization?.split(" ")[1]; // Access token
+        const refreshToken = req.headers['x-refresh-token']; // Refresh token from headers
 
-        // If both tokens are missing, log the user out
+ console.log(refreshToken);
+
+        // Check if both tokens are missing
         if (!token && !refreshToken) {
             console.log("No token or refresh token found. Logging out user.");
-            res.clearCookie("token");
-            res.clearCookie("refreshtoken");
             return res.status(401).json({
                 message: "User is not authenticated. Please log in.",
                 success: false,
             });
         }
 
-        // If the token is available and valid, proceed with the request
+        // 1. If access token is available and valid, authenticate user
         if (token) {
             try {
                 const decoded = jwt.verify(token, "your_secret_key");
-                req.user = decoded; 
+                req.user = decoded;
                 return next();
             } catch (error) {
-                if (error.name === "TokenExpiredError") {
-                    console.log("Token has expired, checking refresh token...");
+                // If token is expired or invalid, proceed to refresh token check
+                if (error.name === "TokenExpiredError " || error.name === 'JsonWebTokenError') {
+                    try {
+                        console.log("Access token has expired or deleted.");
+                        const decodedRefreshToken = jwt.verify(refreshToken, "your_refresh_secret_key");
+                        console.log("if refresh ",decodedRefreshToken);
+        
+                        // If refresh token is valid, generate a new access token
+                        const newToken = jwt.sign({ id: decodedRefreshToken.id }, "your_secret_key", { expiresIn: "1h" });
+        
+                        // Send the new access token back in the response headers
+                        res.setHeader('x-new-token', newToken);
+        
+                        // Optionally, save the new token in local storage on the client side
+                        req.user = decodedRefreshToken; 
+                        console.log("New access token generated using the refresh token.");
+        
+                        // Proceed to the next middleware/route
+                        return next();
+                    } catch (error) {
+                        console.error("Invalid refresh token:", error);
+                        return res.status(401).json({
+                            message: "Invalid refresh token. Please log in again.",
+                            success: false,
+                        });
+                    }
+
+                  
                 } else {
-                    console.error("Error verifying token:", error);
                     return res.status(401).json({
-                        message: "Invalid token",
+                        message: "Invalid access token",
                         success: false,
                     });
                 }
             }
         }
 
-        // If the token is expired or not available, but the refresh token is available
-        if (refreshToken) {
-            try {
-                const decodedRefreshToken = jwt.verify(refreshToken, "your_refresh_secret_key");
-                // Generate a new token and save it to the cookie
-                const newToken = jwt.sign({ id: decodedRefreshToken.id }, "your_secret_key", { expiresIn: "1h" });
-                res.cookie("token", newToken, { expires: new Date(Date.now() + 10 * 60 * 1000), httpOnly: true });
 
-                req.user = decodedRefreshToken; 
-                console.log("New token generated and user authenticated.");
-                return next();
-            } catch (error) {
-                console.error("Error verifying refresh token:", error);
-                res.clearCookie("token");
-                res.clearCookie("refreshtoken");
-                return res.status(401).json({
-                    message: "Invalid refresh token. Please log in again.",
-                    success: false,
-                });
-            }
-        }
-
-        // Fallback case where no valid tokens are found
-        console.log("Token or refresh token is missing or invalid. Logging out user.");
-        res.clearCookie("token");
-        res.clearCookie("refreshtoken");
+        // If no valid tokens are found, log out the user
+        console.log("No valid tokens found. Logging out user.");
         return res.status(401).json({
             message: "User is not authenticated. Please log in.",
             success: false,

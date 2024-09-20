@@ -10,16 +10,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-/* Global dark mode styles */
-.dark-mode {
-  --bg-color: #1f1f1f; /* Dark background */
-  --text-color: #ffffff; /* White text */
-}
-
-body.dark-mode {
-  background-color: var(--bg-color);
-  color: var(--text-color);
-}
 
 .search-tabs {
   background-color: var(--search-tabs-bg-color); /* Ensure you set this color as needed */
@@ -54,6 +44,31 @@ body {
 .text-black {
   color: #000000;
 }
+
+/* Assuming you are using Tailwind CSS; if not, adjust accordingly */
+
+.header {
+  position: relative;
+  z-index: 30;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 16rem; /* Adjust width as needed */
+  background-color: #f0f0f0;
+  padding: 1rem;
+  overflow-y: auto; /* Make sidebar scrollable */
+  z-index: 20;
+}
+
+.content {
+  padding-top: 4rem; /* Adjust based on header height */
+}
+
+
 
 
 
