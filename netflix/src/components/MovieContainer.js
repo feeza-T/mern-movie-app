@@ -4,8 +4,11 @@ import { useSelector } from "react-redux";
 import nowPlayingMovies from '../movieData/NowPlaying';
 import axios from 'axios';
 import { API_END_POINT } from '../utils/constant';
+import { useNavigate } from 'react-router-dom';
+
 
 const MovieContainer = () => {
+  const navigate = useNavigate();
   const movie = useSelector(store => store.movie);
   const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
 
@@ -41,7 +44,9 @@ const MovieContainer = () => {
   
         const response = await axios.put(
           `${API_END_POINT}/moviesData`,
-          {}, // Empty body for the PUT request, if no payload is needed
+          {
+
+          }, // Empty body for the PUT request, if no payload is needed
           {
             headers: {
               'Content-Type': 'application/json',
@@ -56,6 +61,7 @@ const MovieContainer = () => {
         if (newToken) {
           localStorage.setItem('token', newToken); // Update token in localStorage
           console.log('New access token received and stored.');
+          navigate("/browse"); 
         }
   
         // Update the state with the fetched movies
