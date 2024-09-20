@@ -37,31 +37,46 @@ const MovieContainer = () => {
     const fetchNowPlayingMovies = async () => {
       try {
         const token = localStorage.getItem('token');
-        const refreshToken = localStorage.getItem('refreshToken'); // Optionally handle refresh token if needed
+        const refreshToken = localStorage.getItem('refreshToken'); // Get the refresh token from localStorage
   
-        const response = await axios.put(`${API_END_POINT}/moviesData`, {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`, // Include the token
-            'x-refresh-token': refreshToken, // Send the refresh token as well
+        const response = await axios.put(
+          `${API_END_POINT}/moviesData`,
+          {}, // Empty body for the PUT request, if no payload is needed
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`, // Include the access token
+              'x-refresh-token': refreshToken, // Include the refresh token if available
+            },
           }
-        });
+        );
   
-        // Check for a new token in the response headers
+        // Check if a new token is provided in the response headers
         const newToken = response.headers['x-new-token'];
         if (newToken) {
-          localStorage.setItem('token', newToken); // Save the new token in local storage
+          localStorage.setItem('token', newToken); // Update token in localStorage
+          console.log('New access token received and stored.');
         }
   
-        setNowPlayingMovies(response.data); // Update the state with fetched movies
+        // Update the state with the fetched movies
+        setNowPlayingMovies(response.data);
         console.log('Fetched movies from backend:', response.data);
       } catch (error) {
-        console.error('Error fetching movies from backend:', error.response ? error.response.data : error.message);
+        console.error(
+          'Error fetching movies from backend:',
+          error.response ? error.response.data : error.message
+        );
+  
+        // Optionally, handle specific error responses like token expiration
+        if (error.response?.status === 401) {
+          console.log('Unauthorized: Token might be expired or invalid.');
+          // Optionally, redirect to login or refresh token logic
+        }
       }
     };
   
     fetchNowPlayingMovies();
-  }, []);
+  }, []); // Empty dependency array, so it runs on component mount
   
   
   return (
