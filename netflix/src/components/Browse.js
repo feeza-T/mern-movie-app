@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import Header from './Header';
-import { useSelector} from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import MainContainer from './MainContainer';
 import MovieContainer from './MovieContainer';
 import useNowPlayingMovies from '../hooks/useNowPlayingMovies';
@@ -15,7 +15,7 @@ const Browse = () => {
     const toggle = useSelector(store => store.movie.toggle);
     const navigate = useNavigate();
 
-    // my custom hooks
+    // Custom hooks
     useNowPlayingMovies();
     usePopularMovies();
     useTopRatedMovies();
@@ -25,24 +25,21 @@ const Browse = () => {
         if (!user) {
             navigate("/");
         }
-    }, []);
+    }, [user, navigate]);
+
     return (
-        <div >
+        <div className="min-h-screen">
             <Header />
-            <div>
-                {
-                    toggle ? <SearchMovie /> : (
-                        <>
-                            <MainContainer />
-                            <MovieContainer />
-                        </>
-
-                    )
-                }
-
+            <div className="pt-16"> {/* Add padding to push content below header */}
+                {toggle ? <SearchMovie /> : (
+                    <>
+                        <MainContainer />
+                        <MovieContainer />
+                    </>
+                )}
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Browse
+export default Browse;

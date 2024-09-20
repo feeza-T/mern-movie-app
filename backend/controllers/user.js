@@ -42,18 +42,17 @@ export const Login = async (req, res) => {
         const tokenData = { id: user._id };
         console.log("Generating JWT token");
         const token = jwt.sign(tokenData, "your_secret_key", { expiresIn: "1h" });
-        console.log("token ", token)
+        const refreshToken = jwt.sign(tokenData, "your_refresh_secret_key", { expiresIn: "1d" });
 
-        const refreshtoken = jwt.sign(tokenData, "your_refresh_secret_key", { expiresIn: "1d" });
-        res.status(200).cookie("refreshtoken", refreshtoken, { httpOnly: true })
-        console.log("refreshtoken",refreshtoken)
-
-        console.log("Sending response with token");
-        return res.status(200).cookie("token", token, { expires: new Date(Date.now()+ 10*60*1000), httpOnly: true }).json({
+        console.log("Sending response with tokens");
+        return res.status(200).json({
             message: `Welcome back ${user.fullName}`,
             user,
-            success: true
+            success: true,
+            token, // Ensure token is being returned
+            refreshToken // Ensure refreshToken is being returned
         });
+        
 
     } catch (error) {
         console.error("Error in Login:", error);
@@ -64,12 +63,14 @@ export const Login = async (req, res) => {
     }
 };
 
+
 // Logout Function
 export const Logout = async (req, res) => {
     try {
         console.log("Logout endpoint hit");
-        res.clearCookie("refreshtoken")
-        res.clearCookie("token")
+
+        // Here, we won't clear cookies since we are using localStorage.
+        // If you have any server-side session or state to clear, handle it here.
 
         return res.status(200).json({
             message: "User logged out successfully.",
@@ -83,6 +84,7 @@ export const Logout = async (req, res) => {
         });
     }
 };
+
 
 // Register Function
 export const Register = async (req, res) => {

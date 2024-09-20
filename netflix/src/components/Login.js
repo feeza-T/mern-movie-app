@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import axios from 'axios';
 import { API_END_POINT } from '../utils/constant';
@@ -8,13 +8,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setLoading, setUser } from '../redux/userSlice';
 
 const Login = () => {
-    const [isLogin, setIsLogin] = useState(true); // Default to true for login
+    const [isLogin, setIsLogin] = useState(true);
     const [fullName, setFullName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const isLoading = useSelector((store) => store.app.isLoading);
+
+    useEffect(() => {
+        // Check if token exists in localStorage to auto-login the user
+        const token = localStorage.getItem('token');
+        const user = JSON.parse(localStorage.getItem('user'));
+        
+        if (token && user) {
+            dispatch(setUser(user)); // Set the user in Redux state
+            navigate("/browse"); // Redirect to protected page
+        }
+    }, [dispatch, navigate]);
 
     const loginHandler = () => {
         setIsLogin(!isLogin);
@@ -35,16 +46,24 @@ const Login = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                withCredentials: true,
+                withCredentials: true, // You can remove this if no cookies are being used
             });
     
             if (res.data && res.data.success) {
                 toast.success(res.data.message);
                 if (isLogin) {
-                    dispatch(setUser(res.data.user));
-                    navigate("/browse");
+                    // Save tokens and user to localStorage
+                    console.log("Token: ", res.data.token);  // Add this to check if token is returned
+                    console.log("RefreshToken: ", res.data.refreshToken);
+                    
+                    localStorage.setItem('token', res.data.token);
+                    localStorage.setItem('refreshToken', res.data.refreshToken);
+                    localStorage.setItem('user', JSON.stringify(res.data.user)); // Save user data
+                    
+                    dispatch(setUser(res.data.user)); // Set user in Redux store
+                    navigate("/browse"); // Redirect to protected page
                 } else {
-                    setIsLogin(true);
+                    setIsLogin(true); // If signup is successful, switch to login
                 }
             } else {
                 toast.error(res.data.message || "Something went wrong");
@@ -52,14 +71,9 @@ const Login = () => {
         } catch (error) {
             console.error('Login error:', error);
             if (error.response) {
-                // Server responded with a status other than 2xx
                 toast.error(error.response.data.message || "An error occurred");
-            } else if (error.request) {
-                // Request was made but no response received
-                toast.error("No response from server. Please check your connection.");
             } else {
-                // Something happened in setting up the request
-                toast.error("Error in request setup: " + error.message);
+                toast.error("Error: " + error.message);
             }
         } finally {
             dispatch(setLoading(false));
@@ -75,7 +89,7 @@ const Login = () => {
             <div className='absolute'>
                 <img
                     className='w-[100vw] h-[100vh] bg-cover'
-                    src="https://assets.nflxext.com/ffe/siteui/vlv3/dc1cf82d-97c9-409f-b7c8-6ac1718946d6/14a8fe85-b6f4-4c06-8eaf-eccf3276d557/IN-en-20230911-popsignuptwoweeks-perspective_alpha_website_medium.jpg"
+                    src="https://wallpapers.com/images/hd/netflix-background-gs7hjuwvv2g0e9fj.jpg"
                     alt="banner"
                 />
             </div>
