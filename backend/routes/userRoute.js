@@ -11,6 +11,6 @@ router.route("/register").post(Register);
 router.route("/login").post(Login);
 router.route("/logout").get(Logout);
 router.route('/movies').post(NowPlaying);
-router.route('/moviesData').get(authenticateUser, nowPlayingData); // Protect this route
+router.route('/moviesData').post(authenticateUser, nowPlayingData); // Protect this route
 
 export default router;
