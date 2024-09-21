@@ -4,6 +4,7 @@ import Login from './Login';
 import Browse from './Browse';
 import List from './List'; // Import the List component
 import PaymentSection from './PaymentSection'; // Import the PaymentSection
+import Footer from './Footer';
 
 const Body = () => {
     const appRouter = createBrowserRouter([
@@ -22,7 +23,8 @@ const Body = () => {
         {
             path: "/payment",  // Add this route
             element: <PaymentSection />
-        }
+        },
+       
     ]);
 
     return (

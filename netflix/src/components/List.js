@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+//import Footer from './Footer'; // Import the Footer component
 
 const List = () => {
     const [movies, setMovies] = useState([]);
@@ -144,7 +145,6 @@ const List = () => {
                     name="watchingDate"
                     value={formData.watchingDate}
                     onChange={handleInputChange}
-                    placeholder="Watching Date"
                     className="px-4 py-2 mr-2 border rounded"
                 />
                 {editIndex === -1 ? (
@@ -188,6 +188,8 @@ const List = () => {
                     ))}
                 </tbody>
             </table>
+
+           
         </div>
     );
 };
