@@ -69,6 +69,22 @@ body {
 }
 
 
+.footer {
+  background-color: #1f1f1f;
+  color: #ffffff;
+  padding: 20px;
+  text-align: center;
+}
+
+.footer a {
+  color: #ffffff;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  color: #ff0000; /* Hover effect for links */
+}
 
 
 
