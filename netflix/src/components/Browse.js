@@ -10,6 +10,7 @@ import useTopRatedMovies from '../hooks/useTopRatedMovies';
 import useUpcomingMovies from '../hooks/useUpcomingMovies';
 import SearchMovie from './SearchMovie';
 import PremiumMovies from './PremiumMovies'; // Import the PremiumMovies component
+import Footer from './Footer'; // Import the Footer component
 
 const Browse = () => {
     const user = useSelector(store => store.app.user);
@@ -29,9 +30,9 @@ const Browse = () => {
     }, [user, navigate]);
 
     return (
-        <div className="min-h-screen">
+        <div className="min-h-screen flex flex-col">
             <Header />
-            <div className="pt-16"> {/* Add padding to push content below header */}
+            <div className="pt-16 flex-grow"> {/* Add padding and allow this section to grow */}
                 {toggle ? <SearchMovie /> : (
                     <>
                         <MainContainer />
@@ -40,8 +41,8 @@ const Browse = () => {
                     </>
                 )}
             </div>
+            <Footer /> {/* Add Footer here */}
         </div>
-        
     );
 };
 

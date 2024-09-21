@@ -10,6 +10,7 @@ import { setToggle } from "../redux/movieSlice";
 import { FaCamera, FaStar, FaChartBar } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
 import Chart from "chart.js/auto";
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const user = useSelector((store) => store.app.user);
@@ -51,7 +52,7 @@ const Header = () => {
         setReviews([]); // Reset to empty if an error occurs
         toast.error("An error occurred while fetching reviews.");
     }
-};
+};   
 
   const logoutHandler = async () => {
     try {
@@ -294,7 +295,11 @@ const Header = () => {
 
               <div>
                 <div className="p-2 hover:bg-black text-gray-300 cursor-pointer">
-                  <button>My Lists</button>
+                  <button>
+                    <Link to="/list">
+                    My Lists
+                    </Link>
+                    </button>
                 </div>
                 <div className="p-2 hover:bg-black text-gray-300 cursor-pointer">
                   <button onClick={handleAddReviewToggle}>Add Review</button>
