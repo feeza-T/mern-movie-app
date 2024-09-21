@@ -13,7 +13,7 @@ const Footer = () => {
 
     return (
         <div 
-            className="bg-gray-900 text-white py-10 border-t border-gray-500"  // Footer background red and text black
+            className="bg-gray-900 text-white py-10 mt-20 "  // Footer background red and text black
             style={{ height: '250px' }}> {/* Increased height */}
             <div className="container mx-auto flex flex-col md:flex-row justify-between items-center px-4">
                 
@@ -35,14 +35,14 @@ const Footer = () => {
                 <div className="text-center my-4 md:my-0">
                     <h4 className="text-xl font-extrabold">Contact With Us</h4> {/* Larger and bolder header */}
                     <p
-                        className="font-bold cursor-pointer"
+                        className="text-gray-500 cursor-pointer"
                         onClick={() => handleCopyNumber('+1-234-567-8901')}
                         onDoubleClick={() => handleCall('+1-234-567-8901')}
                     >
                         Contact: +1-234-567-8901 (Double-click to Copy)
                     </p>
                     <p
-                        className="font-bold cursor-pointer"
+                        className="text-gray-500 cursor-pointer"
                         onClick={() => handleCopyNumber('+1-987-654-3210')}
                         onDoubleClick={() => handleCall('+1-987-654-3210')}
                     >
@@ -52,10 +52,10 @@ const Footer = () => {
 
                 <div className="text-center">
                     <h4 className="text-xl font-extrabold">Video Streaming Details</h4> {/* Larger and bolder header */}
-                    <p className="font-bold">Our platform supports HD, Full HD, and 4K video streaming.</p>
-                    <p className="font-bold">Enjoy seamless streaming with adaptive bitrate technology.</p>
-                    <p className="font-bold">Compatible with all major devices and platforms including mobile, desktop, and smart TVs.</p>
-                    <p className="font-bold">Unlimited access to movies and series anytime, anywhere.</p>
+                    <p className="text-gray-500">Our platform supports HD, Full HD, and 4K video streaming.</p>
+                    <p className="text-gray-500">Enjoy seamless streaming with adaptive bitrate technology.</p>
+                    <p className="text-gray-500">Compatible with all major devices and platforms including mobile, desktop, and smart TVs.</p>
+                    <p className="text-gray-500">Unlimited access to movies and series anytime, anywhere.</p>
                 </div>
             </div>
         </div>

@@ -161,6 +161,21 @@ const Header = () => {
 
   const handleTopWatchedToggle = () => {
     setIsTopWatchedOpen(!isTopWatchedOpen);
+    if (!isTopWatchedOpen) {
+      fetchTopWatchedMovies();
+    }
+  };
+
+  const fetchTopWatchedMovies = async () => {
+    // Sample data for top watched movies
+    const sampleMovies = [
+      { title: "Avatar", views: 50 },
+      { title: "Titanic", views: 75 },
+      { title: "Star Wars: The Force Awakens", views: 100 },
+      { title: "Avengers: Endgame", views: 80 },
+      { title: "Jurassic World", views: 60 },
+    ];
+    setTopWatchedMovies(sampleMovies);
   };
 
   const renderTopWatchedGraph = () => {
@@ -275,19 +290,19 @@ const Header = () => {
 
               {dropdownOpen && (
                 <div className="ml-4">
-                  <div className="p-2 hover:bg-gray-800 cursor-pointer">
+                  <div className="p-2 hover:bg-gray-900 cursor-pointer">
                     <a href="/action">Action</a>
                   </div>
-                  <div className="p-2 hover:bg-gray-800 cursor-pointer">
+                  <div className="p-2 hover:bg-gray-900 cursor-pointer">
                     <a href="/thriller">Thriller</a>
                   </div>
-                  <div className="p-2 hover:bg-gray-800 cursor-pointer">
+                  <div className="p-2 hover:bg-gray-900 cursor-pointer">
                     <a href="/comedy">Comedy</a>
                   </div>
-                  <div className="p-2 hover:bg-gray-800 cursor-pointer">
+                  <div className="p-2 hover:bg-gray-900 cursor-pointer">
                     <a href="/drama">Drama</a>
                   </div>
-                  <div className="p-2 hover:bg-gray-800 cursor-pointer">
+                  <div className="p-2 hover:bg-gray-900 cursor-pointer">
                     <a href="/romance">Romance</a>
                   </div>
                 </div>
