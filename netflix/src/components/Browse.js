@@ -9,6 +9,7 @@ import usePopularMovies from '../hooks/usePopularMovies';
 import useTopRatedMovies from '../hooks/useTopRatedMovies';
 import useUpcomingMovies from '../hooks/useUpcomingMovies';
 import SearchMovie from './SearchMovie';
+import PremiumMovies from './PremiumMovies'; // Import the PremiumMovies component
 
 const Browse = () => {
     const user = useSelector(store => store.app.user);
@@ -35,10 +36,12 @@ const Browse = () => {
                     <>
                         <MainContainer />
                         <MovieContainer />
+                        <PremiumMovies /> {/* Add PremiumMovies section here */}
                     </>
                 )}
             </div>
         </div>
+        
     );
 };
 

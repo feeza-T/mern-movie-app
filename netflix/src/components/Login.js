@@ -17,13 +17,12 @@ const Login = () => {
     const isLoading = useSelector((store) => store.app.isLoading);
 
     useEffect(() => {
-        // Check if token exists in localStorage to auto-login the user
         const token = localStorage.getItem('token');
         const user = JSON.parse(localStorage.getItem('user'));
         
         if (token && user) {
-            dispatch(setUser(user)); // Set the user in Redux state
-            navigate("/browse"); // Redirect to protected page
+            dispatch(setUser(user));
+            navigate("/browse");
         }
     }, [dispatch, navigate]);
 
@@ -46,24 +45,20 @@ const Login = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                withCredentials: true, // You can remove this if no cookies are being used
+                withCredentials: true,
             });
     
             if (res.data && res.data.success) {
                 toast.success(res.data.message);
                 if (isLogin) {
-                    // Save tokens and user to localStorage
-                    console.log("Token: ", res.data.token);  // Add this to check if token is returned
-                    console.log("RefreshToken: ", res.data.refreshToken);
-                    
                     localStorage.setItem('token', res.data.token);
                     localStorage.setItem('refreshToken', res.data.refreshToken);
-                    localStorage.setItem('user', JSON.stringify(res.data.user)); // Save user data
+                    localStorage.setItem('user', JSON.stringify(res.data.user));
                     
-                    dispatch(setUser(res.data.user)); // Set user in Redux store
-                    navigate("/browse"); // Redirect to protected page
+                    dispatch(setUser(res.data.user));
+                    navigate("/browse");
                 } else {
-                    setIsLogin(true); // If signup is successful, switch to login
+                    setIsLogin(true);
                 }
             } else {
                 toast.error(res.data.message || "Something went wrong");
@@ -84,7 +79,7 @@ const Login = () => {
     };
     
     return (
-        <div>
+        <div className='relative'>
             <Header />
             <div className='absolute'>
                 <img
@@ -93,9 +88,21 @@ const Login = () => {
                     alt="banner"
                 />
             </div>
+
+            {/* Welcome Message */}
+            <div className='text-center absolute top-20 left-0 right-0 mx-auto w-full'>
+                <h2 className='text-red-600 text-5xl font-bold mb-4'>Welcome to TTFlix!</h2>
+                <p className='text-gray-400 w-6/12 mx-auto'>
+                    Discover, watch, and enjoy your favorite movies from a vast collection of classics, blockbusters, and hidden gems.
+          
+                    
+                </p>
+            </div>
+
+            {/* Login/Signup Form */}
             <form
                 onSubmit={getInputData}
-                className='flex flex-col w-3/12 p-12 my-36 left-0 right-0 mx-auto items-center justify-center absolute rounded-md bg-black opacity-90'
+                className='flex flex-col w-3/12 p-12 my-52 left-0 right-0 mx-auto items-center justify-center absolute rounded-md bg-black opacity-90'
             >
                 <h1 className='text-3xl text-white mb-5 font-bold'>{isLogin ? "Login" : "Signup"}</h1>
                 <div className='flex flex-col'>
